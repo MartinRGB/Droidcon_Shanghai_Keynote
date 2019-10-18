@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Cover Flow</title>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+  </head>
+  <body>
+
+    <main>
+			<div class="gl_content">
+				<div class="content">
+          <canvas id="glslCanvas"  width="1080" height="2340"></canvas>
+        </div>
+
+        <!-- <div style="display:none">
+
+          <div id="wrapper" style="display:none">
+            <ul id="slides">
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+            </ul>
+          
+            <ul id="nav">
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </div> -->
+      <div id="lyrics">
+
+      </div>
+		</main>
+
+		<div id="mockup">
+				<img id="mockup-img" src="./imgs/oneplus.png">
+    </div>
+
+    <div class="upload_area">
+      <div class="upload-image btn">
+        <span>上传图片</span>
+        <input id="imageLoader" class="upload-image-input" type="file">
+      </div>
+    </div>
+
+    <div id="dragdrop">
+      <span id="dragtext" style="
+      text-align: center;
+      width: 100%;
+      position: absolute;
+      letter-spacing: 10px;
+      font-weight: 500;
+      font-size: 16px;
+      opacity: 0.5;
+      bottom: 30px;
+  ">点击图片或拖放图片 — 上传，拖拽滑块 - 模糊</span>
+
+      <div>
+        <input type="range" min="0" max="150" value="50" id="slider"  style="
+          text-align: center;
+          width: 30%;
+          margin: 0 auto;
+          position: absolute;
+          letter-spacing: 10px;
+          font-weight: 500;
+          font-size: 16px;
+          opacity: 0.5;
+          bottom: 59px;
+          left: 287px;
+    "/>
+      </div>
+    
+      <div class="image-shadow js-tilt-container" ></div>
+      <canvas id="preCanvas" class="js-tilt-container"  width="400" height="400"></canvas>
+
+      <div id="draghoverimg" style="
+          z-index: 100000000;
+          width: 100%;
+          height: 100%;
+          background-image: url(./imgs/hover.png);
+          display: none;
+          opacity: 0.95;
+          background-size: contain;
+      ">
+      </div>
+
+      
+    </div>
+
+
+    <script type="text/javascript" src="js/glslCanvas.js"></script>
+    <script src='js/jquery-2.1.0.min.js'></script>
+    <script src="js/rebound.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src='js/dat.gui.min.js'></script>
+    <!-- <script src="js/springy_carousel.js"></script> -->
+    <script src="js/stackblur.min.js"></script>
+    <script src="js/main.js"></script>
+    
+    <script>
+      // You can also require other files to run in this process
+      //require('./renderer.js')
+    </script>
+  </body>
+</html>
