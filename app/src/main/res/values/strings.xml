@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Shader Preview</string>
+    <string name="vert_setting">选择顶点着色器</string>
+    <string name="frag_setting">选择片段着色器</string>
+</resources>
