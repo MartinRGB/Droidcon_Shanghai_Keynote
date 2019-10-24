@@ -51,7 +51,7 @@ function initShader(){
     uniform vec2 uv_offset;
     uniform float sampleScale;
     uniform float flowSpeed;
-    
+    uniform float u_saturation;
     #define uTexture u_tex0
     
     vec3 mod289(vec3 x) {
@@ -177,7 +177,7 @@ function initShader(){
               )
           );
           
-          color = czm_saturation(color,u_slot1*0.8);
+          color = czm_saturation(color,u_slot1*u_saturation);
           //brightness Effect
           color = brightnessContrast(color,-1.+u_slot1,1.);
 
@@ -199,6 +199,8 @@ function initShader(){
     sandbox.setUniform("uv_offset",0.,0.); 
     sandbox.setUniform("sampleScale",1.25); 
     sandbox.setUniform("flowSpeed",0.25); 
+    sandbox.setUniform("u_saturation",0.25); 
+    
     
 
     slot1Spring.addListener({
@@ -364,7 +366,8 @@ const options = {
     x_offset:0,
     y_offset:0,
     sample_scale:1.25,
-    flow_speed:0.25
+    flow_speed:0.25,
+    saturation:1.0
 }
 
 var chooseImage = {
@@ -388,11 +391,12 @@ gui5 = gui.add(options, 'x_offset',0,1).step(0.01).name("材质偏移_x");
 gui6 = gui.add(options, 'y_offset',0,1).step(0.01).name("材质偏移_y");
 gui7 = gui.add(options, 'sample_scale',1,2).step(0.01).name("缩放比例");
 gui8 = gui.add(options, 'flow_speed',0,1).step(0.01).name("流动速度");
+gui9 = gui.add(options, 'saturation',0,4).step(0.01).name("饱和度");
 //参数
 //亮屏
 //开启图标
 
-var guiN = [gui1,gui2,gui3,gui4,gui5,gui6,gui7,gui8]
+var guiN = [gui1,gui2,gui3,gui4,gui5,gui6,gui7,gui8,gui9]
 
 for (let i = 0; i < guiN.length; i++) {
     
@@ -429,6 +433,7 @@ const updateEffect = () =>{
     sandbox.setUniform("uv_offset",options.x_offset,options.y_offset); 
     sandbox.setUniform("sampleScale",options.sample_scale); 
     sandbox.setUniform("flowSpeed",options.flow_speed); 
+    sandbox.setUniform("u_saturation",options.saturation); 
 
     
 }
