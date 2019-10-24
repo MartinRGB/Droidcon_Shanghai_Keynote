@@ -18,8 +18,11 @@ uniform sampler2D u_tex1;
 
 vec3 saturation(vec3 rgb, float parameter)
 {
+    //Green Color
     const vec3 W = vec3(0.2125, 0.7154, 0.0721);
+    //Get greyscale img
     vec3 intensity = vec3(dot(rgb, W));
+    //Mix the greyscale img & original img
     return mix(intensity, rgb, parameter);
 }
 
