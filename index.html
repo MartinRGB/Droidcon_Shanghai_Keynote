@@ -16,11 +16,7 @@
 				height: 100%;
             }
             @media (max-width: 600px) {
-
-                /* .ge_menu_bar{
-                    display: none;
-                } */
-
+                
                 .ge_editor{
                     display: none;
                 }
@@ -65,29 +61,18 @@
 	</body>
 
     <link type="text/css" rel="stylesheet" href="build/glslEditor.css">
-    <!-- <link type="text/css" rel="stylesheet" href="build/oppoSet.css"> -->
     <script type="text/javascript" src='build/rebound.js'></script>
 
         <script type="text/javascript">
 
             var springSystem = new rebound.SpringSystem();
             var slot1Spring = springSystem.createSpring(80, 40);
-            var slot2Spring = springSystem.createSpring(80, 20);
 
             slot1Spring.addListener({
                 onSpringUpdate: function(slot1Spring) {
                 var val = slot1Spring.getCurrentValue();
                 }
             });
-
-            // slot2Spring.addListener({
-            //     onSpringUpdate: function(slot2Spring) {
-            //     var val = slot2Spring.getCurrentValue();
-            //     }
-            // });
-
-            // slot1Spring.setCurrentValue(0.0);
-            // slot2Spring.setCurrentValue(0.0);
             
     </script>
     <script type="text/javascript" src="build/glslEditor.js"></script>
