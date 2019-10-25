@@ -68,63 +68,6 @@ body {
   top: 0;
 }
 
-#slides{
-	height: 100vh;
-	overflow: hidden;
-  opacity:1;
-
-  width: 360px;
-  height: 780px;
-  display: block;
-  position: absolute;
-  top: 0;
-  padding-left: 0px;
-  margin-top: 0px;
-  transform: scale(0.79);
-  margin-bottom: 0px;
-  background: url(./imgs/launcher_bg.png);
-  background-size: contain;
-  cursor: grab;
-}
-
-#slides li {
-	display: inline-block;
-  	background-size: contain;
-  	position: fixed;
-  	background-position: center;
-  	background-repeat: no-repeat;
-	top: 20px; right: 0; bottom: 50px; left: 0;
-	
-}
-
-#slides li:nth-child(1){
-	background: url('./imgs/launcher_1.png');
-  background-size: contain;
-  width: 360px;
-  height: 780px;
-}
-
-#slides li:nth-child(2){
-	background: url('./imgs/launcher_2.png');
-  background-size: contain;
-  width: 360px;
-  height: 780px;
-}
-
-#slides li:nth-child(3){
-	background: url('./imgs/launcher_3.png');
-  background-size: contain;
-  width: 360px;
-  height: 780px;
-}
-
-#slides li:nth-child(4){
-	background: url('./imgs/launcher_4.png');
-  background-size: contain;
-  width: 360px;
-  height: 780px;
-}
-
 #dragdrop{
   position: absolute;
   display: block;
@@ -132,28 +75,6 @@ body {
   height: 550px;
   right: 0px;
   bottom: 0px;
-}
-
-
-#nav {
-  text-align: center;
-  position: absolute;
-  bottom: 149px;
-  padding-left: 0px;
-  left: 50%;
-  white-space: nowrap;
-  transform: translate3d(-50%,0,0) scale(0.79);
-}
-
-#nav li {
-	display: inline-block;
-	width: 8px;
-	height: 8px;
-	border-radius: 20px;
-	margin-left: 4px;
-	margin-right: 4px;
-	background: white;
-	cursor:none; 
 }
 
 .upload_area{

@@ -4,11 +4,8 @@ var sandbox = new GlslCanvas(canvas);
 
 var newSpringSystem = new rebound.SpringSystem();
 var slot1Spring = newSpringSystem.createSpring();
-var iconAlphaSpring = newSpringSystem.createSpring();
 var newSpringConfig = new rebound.SpringConfig(120, 30);
 slot1Spring.setSpringConfig(newSpringConfig);
-iconAlphaSpring.setSpringConfig(newSpringConfig);
-
 
 const preCanvas = document.getElementById('preCanvas');
 const preCanvasCtx = preCanvas.getContext('2d');
@@ -21,15 +18,6 @@ const buffCtx = buff.getContext('2d');
 const slider = document.getElementById('slider');
 
 
-function initCarousel(){
-
-    springy_carousel = $('#wrapper').springyCarousel({
-        carouselTransitionComplete:function(spring,xTranslation){
-        }
-    });
-
-    $('#wrapper')[0].style.display = "block";
-}
 
 
 // ################################## Shader ##################################
@@ -208,25 +196,16 @@ function initShader(){
             var val = spring.getCurrentValue();
             //val = rebound.MathUtil.mapValueInRange(val, 0, 1, 0, 1);
             sandbox.setUniform("u_slot1",val); 
-            // springy_carousel[0].style.opacity = val*val;
         }
     });
 
-    iconAlphaSpring.addListener({
-      onSpringUpdate: function(spring) {
-          var val = spring.getCurrentValue();
-          // springy_carousel[0].style.opacity = val*val;
-      }
-    });
     slot1Spring.setCurrentValue(0.);
     slot1Spring.setEndValue(1.);
-    iconAlphaSpring.setCurrentValue(0.);
-    iconAlphaSpring.setEndValue(1.);
 }
 
 // ################################## Image Slider ##################################
 
-var slideHoldValue;
+var slideHoldValue = 50;
 slider.addEventListener('change', function () {
 
   //sandbox.set
@@ -271,12 +250,94 @@ tiltEl.on('click',function(e){
     document.getElementById('imageLoader').click();
 });
 
+// ################################## Dat GUI ##################################
 
-// ################################## Upload Image ##################################
+
+
+
+
+const options = {
+  is_icon_disabled:false,
+  is_screen_off:false,
+  noise_factor:130,
+  noise_displacement:0.3,
+  x_offset:0,
+  y_offset:0,
+  sample_scale:1.25,
+  flow_speed:0.25,
+  saturation:1.0
+}
+
+var chooseImage = {
+  loadFile : function() { 
+    document.getElementById('imageLoader').click();
+  }
+};
+
+var isDisabled = false;
+
+
+const gui = new dat.GUI( { autoPlace: true, width: 300 } );
+//gui.close();
+
+// gui0 = gui.add(chooseImage, 'loadFile').name('上传贴图');
+gui1 = gui.add(options, 'is_icon_disabled').name("关闭歌词");
+gui2 = gui.add(options, 'is_screen_off').name("熄灭屏幕");
+gui3 = gui.add(options, 'noise_factor',0,500).step(0.5).name("噪音系数");
+gui4 = gui.add(options, 'noise_displacement',0,1).step(0.01).name("噪音置换");
+gui5 = gui.add(options, 'x_offset',-1,1).step(0.01).name("材质偏移_x");
+gui6 = gui.add(options, 'y_offset',-1,1).step(0.01).name("材质偏移_y");
+gui7 = gui.add(options, 'sample_scale',0,2).step(0.01).name("缩放比例");
+gui8 = gui.add(options, 'flow_speed',0,1).step(0.01).name("流动速度");
+gui9 = gui.add(options, 'saturation',0,4).step(0.01).name("饱和度");
+//参数
+//亮屏
+//开启图标
+
+var guiN = [gui1,gui2,gui3,gui4,gui5,gui6,gui7,gui8,gui9]
+
+for (let i = 0; i < guiN.length; i++) {
+  
+guiN[i].onChange(function(value){
+  // loop()
+  updateEffect();
+
+});
+
+guiN[i].onFinishChange(function(value) {
+  // Fires when a controller loses focus.
+});
+}
+
+const updateEffect = () =>{
+  if(options.is_icon_disabled){
+      $('#lyrics')[0].style.display = "none";
+  }
+  else{
+    $('#lyrics')[0].style.display = "block";
+  }
+
+  if(options.is_screen_off){
+      slot1Spring.setEndValue(0.);
+  }
+  else{
+      slot1Spring.setEndValue(1.);
+  }
+
+  sandbox.setUniform("noiseFactor",options.noise_factor); 
+  sandbox.setUniform("noiseDisplacement",options.noise_displacement); 
+  sandbox.setUniform("uv_offset",options.x_offset,options.y_offset); 
+  sandbox.setUniform("sampleScale",options.sample_scale); 
+  sandbox.setUniform("flowSpeed",options.flow_speed); 
+  sandbox.setUniform("u_saturation",options.saturation); 
+ 
+}
+
+// ################################## Click to Upload ##################################
 
 
 var imageLoader = document.getElementById('imageLoader');
-imageLoader.addEventListener('change', handleImage, false);
+imageLoader.addEventListener('change', onClickUploaded, false);
 var imgOnLoad = false;
 var drawing = new Image();
 var scaleRatio = 1;
@@ -311,28 +372,13 @@ function drawDefault(){
 
     drawing.onload = function(){
       imgOnLoad = true;
-
     };          
-
-    
-    // buffCtx.fillStyle = '#eee';
-    // buffCtx.fillRect(0, 0, preCanvas.width, preCanvas.height);
-
-    // buffCtx.fillStyle = '#08f';
-    // buffCtx.fillRect(30, 30, 120, 90);
-
-    // buffCtx.fillStyle = '#f04';
-    // buffCtx.beginPath();
-    // buffCtx.arc(120, 120, 50, 0, 2 * Math.PI);
-    // buffCtx.fill();
-
-    // preCanvasCtx.drawImage(buff, 0, 0);
 
 }                 
 
 
 
-function handleImage(e){
+function onClickUploaded(e){
   var reader = new FileReader();
   imgOnLoad = false;
   reader.onload = function(event){
@@ -341,104 +387,20 @@ function handleImage(e){
           buffCtx.drawImage(drawing,0,0,drawing.width,drawing.height,     // source rectangle
             0, 0, buff.width, buff.height);
           //preCanvasCtx.drawImage(buff, 0, 0);
-          drawBlur(slideHoldValue)
           imgOnLoad = true;
+          drawBlur(slideHoldValue)
       }
       drawing.src = event.target.result;
       sandbox.setUniform("u_tex0",drawing.src); 
       tiltEl[0].style.backgroundImage = 'url('+drawing.src+')'
+      
+
   }
   reader.readAsDataURL(e.target.files[0]);     
 }
 
 
-// ################################## Dat GUI ##################################
-
-
-
-
-
-const options = {
-    is_icon_disabled:false,
-    is_screen_off:false,
-    noise_factor:130,
-    noise_displacement:0.3,
-    x_offset:0,
-    y_offset:0,
-    sample_scale:1.25,
-    flow_speed:0.25,
-    saturation:1.0
-}
-
-var chooseImage = {
-    loadFile : function() { 
-      document.getElementById('imageLoader').click();
-    }
-};
-
-var isDisabled = false;
-
-
-const gui = new dat.GUI( { autoPlace: true, width: 300 } );
-//gui.close();
-
-// gui0 = gui.add(chooseImage, 'loadFile').name('上传贴图');
-gui1 = gui.add(options, 'is_icon_disabled').name("关闭歌词");
-gui2 = gui.add(options, 'is_screen_off').name("熄灭屏幕");
-gui3 = gui.add(options, 'noise_factor',0,500).step(0.5).name("噪音系数");
-gui4 = gui.add(options, 'noise_displacement',0,1).step(0.01).name("噪音置换");
-gui5 = gui.add(options, 'x_offset',0,1).step(0.01).name("材质偏移_x");
-gui6 = gui.add(options, 'y_offset',0,1).step(0.01).name("材质偏移_y");
-gui7 = gui.add(options, 'sample_scale',1,2).step(0.01).name("缩放比例");
-gui8 = gui.add(options, 'flow_speed',0,1).step(0.01).name("流动速度");
-gui9 = gui.add(options, 'saturation',0,4).step(0.01).name("饱和度");
-//参数
-//亮屏
-//开启图标
-
-var guiN = [gui1,gui2,gui3,gui4,gui5,gui6,gui7,gui8,gui9]
-
-for (let i = 0; i < guiN.length; i++) {
-    
-  guiN[i].onChange(function(value){
-    // loop()
-    updateEffect();
-
-  });
-
-  guiN[i].onFinishChange(function(value) {
-    // Fires when a controller loses focus.
-  });
-}
-
-const updateEffect = () =>{
-    if(options.is_icon_disabled){
-        $('#lyrics')[0].style.display = "none";
-    }
-    else{
-      $('#lyrics')[0].style.display = "block";
-    }
-
-    if(options.is_screen_off){
-        slot1Spring.setEndValue(0.);
-        iconAlphaSpring.setEndValue(0.);
-    }
-    else{
-        slot1Spring.setEndValue(1.);
-        iconAlphaSpring.setEndValue(1.);
-    }
-
-    sandbox.setUniform("noiseFactor",options.noise_factor); 
-    sandbox.setUniform("noiseDisplacement",options.noise_displacement); 
-    sandbox.setUniform("uv_offset",options.x_offset,options.y_offset); 
-    sandbox.setUniform("sampleScale",options.sample_scale); 
-    sandbox.setUniform("flowSpeed",options.flow_speed); 
-    sandbox.setUniform("u_saturation",options.saturation); 
-
-    
-}
-
-// ################################## Drag & Drop ##################################
+// ################################## Drag & Drop to Upload ##################################
 
 var fopn,transitionEvent;
 var dragCounter = 0;
@@ -458,8 +420,9 @@ function onFileDrop(e) {  cancel(e);
           buffCtx.drawImage(drawing,0,0,drawing.width,drawing.height,     // source rectangle
           0, 0, buff.width, buff.height);
           //preCanvasCtx.drawImage(buff, 0, 0);
-          drawBlur(slideHoldValue)
           imgOnLoad = true;
+          drawBlur(slideHoldValue)
+
       }
       drawing.src = event.target.result;
       sandbox.setUniform("u_tex0",drawing.src);
@@ -532,32 +495,7 @@ function unhighlightAnimCallback(event) {
 
 function cancel(e) { e.stopPropagation(); e.preventDefault(); }
 
-// ######################## Util ########################
-// ###### CSS Transition CallBack ######
-function whichTransitionEvent(){
-  var t,
-      el = document.createElement("fakeelement");
 
-  var transitions = {
-    "transition"      : "transitionend",
-    "OTransition"     : "oTransitionEnd",
-    "MozTransition"   : "transitionend",
-    "WebkitTransition": "webkitTransitionEnd"
-  }
-
-  for (t in transitions){
-    if (el.style[t] !== undefined){
-      return transitions[t];
-    }
-  }
-}
-
-function getFileExtension(filename){
-  console.log(filename.split('.').pop())
-  return filename.split('.').pop();
-}
-
-// initCarousel();
 initShader();
 updateEffect();
 initDragDrop();
