@@ -25,6 +25,12 @@ public class SimpleShaderProgram extends ShaderProgram {
         super(context,mVert,mFrag);
     }
 
+    public SimpleShaderProgram(Context context, int vertId, int fragId){
+        super(context,vertId,fragId);
+    }
+
+
+
     //###################Init Input Value & Draw Program###################
     //int width, int height, float mouseX, float mouseY, float sensorX, float sensorY, float sensorZ, float sensorAccelX,float sensorAccelY,float screenValue,int textureId,float totalAlpha,float texAlpha,int orientation,float offsetX,float offsetY,float time
     public void setUniforms(int width, int height, int textureId,float time){

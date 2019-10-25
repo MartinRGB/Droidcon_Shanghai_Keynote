@@ -1,51 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.martinrgb.shaderexample">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.martinrgb.shaderexample">
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name="com.martinrgb.shaderexample.MainActivity"
-                  android:showOnLockScreen="true"
-                  android:exported="true">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".ShaderActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
-        <!-- 配置实时壁纸Service -->
-
-        <service
-            android:name="com.martinrgb.shaderexample.ShaderWallpaper"
-            android:showOnLockScreen="true"
-            android:label="MultiLWP(Shader)"
-            android:permission="android.permission.BIND_WALLPAPER">
-            <!-- 为实时壁纸配置intent-filter -->
-            <intent-filter>
-                <action android:name="android.service.wallpaper.WallpaperService" />
-            </intent-filter>
-            <!-- 为实时壁纸配置meta-data -->
-            <meta-data
-                android:name="android.service.wallpaper"
-                android:resource="@xml/livewallpaper" />
-        </service>
-
-
     </application>
-
-    <uses-feature android:name="android.hardware.camera"/>
-    <uses-feature android:name="android.hardware.camera.autofocus"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.SET_WALLPAPER"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
-    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
 
 </manifest>

@@ -70,12 +70,33 @@ public class ShaderProgram {
             TEXTURE_COORD_BUF.position(0);
         }
 
-
         //拿到着色器GLSL文件，用buildProgram构建Program
         programOrig = ShaderHelper.buildProgram(
                 TextResourceReader.readTextFileFromResource(context, givenVertex),
                 TextResourceReader.readTextFileFromResource(context, givenFrag));
 
+    }
+
+    protected ShaderProgram(Context context, int vertexId, int fragId){
+
+        if (VERTEX_BUF == null) {
+            VERTEX_BUF = ByteBuffer.allocateDirect(VERTEX_DATA.length * 4)
+                    .order(ByteOrder.nativeOrder()).asFloatBuffer();
+            VERTEX_BUF.put(VERTEX_DATA);
+            VERTEX_BUF.position(0);
+        }
+
+        if (TEXTURE_COORD_BUF == null) {
+            TEXTURE_COORD_BUF = ByteBuffer.allocateDirect(TEXTURE_DATA.length * 4)
+                    .order(ByteOrder.nativeOrder()).asFloatBuffer();
+            TEXTURE_COORD_BUF.put(TEXTURE_DATA);
+            TEXTURE_COORD_BUF.position(0);
+        }
+
+        //拿到着色器GLSL文件，用buildProgram构建Program
+        programOrig = ShaderHelper.buildProgram(
+                TextResourceReader.readTextFileFromResource(context, vertexId),
+                TextResourceReader.readTextFileFromResource(context, fragId));
 
     }
 

@@ -32,11 +32,26 @@ public class ShaderRenderer  implements GLSurfaceView.Renderer{
     public InputStream mVert;
     public InputStream mFrag;
 
+    public int mVertId;
+    public int mFragId;
+
+    public ShaderRenderer(Context context) {
+        this.context = context;
+        setSpringSystem();
+    }
+
     public ShaderRenderer(Context context,InputStream vert,InputStream frag) {
         this.context = context;
         setSpringSystem();
         mVert = vert;
         mFrag = frag;
+    }
+
+    public ShaderRenderer(Context context,int vert,int frag) {
+        this.context = context;
+        setSpringSystem();
+        mVertId = vert;
+        mFragId = frag;
     }
 
     //###################Init Render###################
@@ -56,7 +71,7 @@ public class ShaderRenderer  implements GLSurfaceView.Renderer{
         GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
         //GLES20.glEnable(GLES20.GL_CULL_FACE);
         //GLES20.glCullFace(GLES20.GL_BACK);
-        simpleShaderProgram = new SimpleShaderProgram(context,mVert,mFrag);
+        simpleShaderProgram = new SimpleShaderProgram(context,mVertId,mFragId);
         wallPaperTexture = TextureHelper.loadTexture(context, R.drawable.saturation_2_blurred);
         globalStartTime = System.nanoTime();
     }
