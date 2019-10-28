@@ -11,13 +11,18 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.martinrgb.shaderexample.renderer.ShaderRenderer;
+import com.martinrgb.shaderexample.renderer.util.TextReader;
+import com.martinrgb.shaderexample.rendereralternative.ShaderView;
 
 public class ShaderActivity extends AppCompatActivity {
 
     private GLSurfaceView glSurfaceView;
     private ShaderRenderer shaderRenderer;
+
+    private ShaderView shaderView;
     private boolean isRendering = false;
     private final String TAG = "ShaderActivity";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +34,8 @@ public class ShaderActivity extends AppCompatActivity {
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_shader);
-        initGLSurfaceView(this);
+        //initGLSurfaceView(this);
+        initShaderView();
     }
 
     private void initGLSurfaceView(Context context){
@@ -48,6 +54,24 @@ public class ShaderActivity extends AppCompatActivity {
             Log.d(TAG, "do not support OpenGLES 2.0");
             return;
         }
+    }
+
+    private void initShaderView() {
+        shaderView = (ShaderView) findViewById(R.id.preview);
+        shaderView.setFragmentShader( R.raw.flow,1/4f,new int[]{R.drawable.test,R.drawable.saturation_2_blurred});
+        shaderView.getRenderer().setOnRendererListener(
+                new com.martinrgb.shaderexample.rendereralternative.ShaderRenderer.OnRendererListener() {
+                    @Override
+                    public void onInfoLog(String error) {
+
+                    }
+
+                    @Override
+                    public void onFramesPerSecond(int fps) {
+                        Log.e("Fps",String.valueOf(fps));
+                    }
+        });
+
     }
 
 

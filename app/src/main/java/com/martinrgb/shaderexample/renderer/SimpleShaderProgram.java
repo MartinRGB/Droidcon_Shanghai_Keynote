@@ -31,13 +31,47 @@ public class SimpleShaderProgram extends ShaderProgram {
     }
 
     //###################Init Input Value & Draw Program###################
-    public void setUniforms(int width, int height, int textureId,float time){
+    public void setUniforms(int width, int height, int textureId,float time,float quality){
+
+//        if (bufA == null ) {
+//            // Create new textures for buffering
+//
+//
+//            bufA = new TextureRenderBuffer(width, height, GLES20.GL_TEXTURE4);
+//        }
+
 
         setupShaderInputs(programOrig,
-                new int[]{width, height},
+                new int[]{Math.round(width), Math.round(height)},
                 new int[]{textureId},time);
 
+//        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
+
+//        GLES20.glViewport(
+//                0,
+//                0,
+//                Math.round(width*quality), Math.round(height*quality));
+//
+//        bufA.bind();
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
+//        bufA.unbind();
+//        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
+//
+//        GLES20.glViewport(
+//                0,
+//                0,
+//                width,height);
+//
+//        setupShaderInputs(programFinal,
+//                new int[]{width,height},
+//                new int[]{bufA.getTexId()},time);
+//        GLES20.glClear(
+//                GLES20.GL_COLOR_BUFFER_BIT);
+//        GLES20.glDrawArrays(
+//                GLES20.GL_TRIANGLE_STRIP,
+//                0,
+//                4);
+
     }
 
 }

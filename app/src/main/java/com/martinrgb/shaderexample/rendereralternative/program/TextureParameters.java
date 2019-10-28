@@ -1,4 +1,4 @@
-package com.martinrgb.shaderexample.renderer.program;
+package com.martinrgb.shaderexample.rendereralternative.program;
 
 import android.graphics.Bitmap;
 import android.graphics.Matrix;

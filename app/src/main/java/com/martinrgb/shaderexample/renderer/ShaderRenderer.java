@@ -5,7 +5,6 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 
 import com.martinrgb.shaderexample.R;
-import com.martinrgb.shaderexample.renderer.program.BackBufferParameters;
 import com.martinrgb.shaderexample.renderer.util.FPSCounter;
 import com.martinrgb.shaderexample.renderer.util.LoggerConfig;
 import com.martinrgb.shaderexample.renderer.program.TextureHelper;
@@ -49,7 +48,7 @@ public class ShaderRenderer  implements GLSurfaceView.Renderer{
     private long globalStartTime;
     private final float resolution[] = new float[]{0, 0};
     private final float surfaceResolution[] = new float[]{0, 0};
-    private float quality = (float) 1;
+    private float quality = (float) 1/4;
 
     public void setQuality(float quality) {
         this.quality = quality;
@@ -74,18 +73,17 @@ public class ShaderRenderer  implements GLSurfaceView.Renderer{
 
         globalStartTime = System.nanoTime();
 
-        surfaceResolution[0] = width;
-        surfaceResolution[1] = height;
+//        surfaceResolution[0] = width;
+//        surfaceResolution[1] = height;
+//
+//
+//
+////        if (w != resolution[0] || h != resolution[1]) {
+////            deleteTargets();
+////        }
 
-        float w = Math.round(width * quality);
-        float h = Math.round(height * quality);
-
-        if (w != resolution[0] || h != resolution[1]) {
-            deleteTargets();
-        }
-
-        resolution[0] = w;
-        resolution[1] = h;
+        resolution[0] = width;
+        resolution[1] = height;
     }
 
     @Override
@@ -98,7 +96,8 @@ public class ShaderRenderer  implements GLSurfaceView.Renderer{
                 (int)resolution[0],
                 (int)resolution[1],
                 texture,
-                currentTime
+                currentTime,
+                quality
         );
 
         if(LoggerConfig.ON == true){
@@ -106,73 +105,72 @@ public class ShaderRenderer  implements GLSurfaceView.Renderer{
         }else {
         }
     }
-
-    private final BackBufferParameters backBufferTextureParams = new BackBufferParameters();
-    private final int fb[] = new int[]{0, 0};
-    private final int tx[] = new int[]{0, 0};
-    private int frontTarget;
-    private int backTarget = 1;
-
-    private void deleteTargets() {
-        if (fb[0] == 0) {
-            return;
-        }
-
-        GLES20.glDeleteFramebuffers(2, fb, 0);
-        GLES20.glDeleteTextures(2, tx, 0);
-
-        fb[0] = 0;
-    }
-
-    private void createTargets(int width, int height) {
-        deleteTargets();
-
-        GLES20.glGenFramebuffers(2, fb, 0);
-        GLES20.glGenTextures(2, tx, 0);
-
-        createTarget(frontTarget, width, height, backBufferTextureParams);
-        createTarget(backTarget, width, height, backBufferTextureParams);
-
-        // unbind textures that were bound in createTarget()
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
-        GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0);
-    }
-
-    private void createTarget(
-            int idx,
-            int width,
-            int height,
-            BackBufferParameters tp) {
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, tx[idx]);
-
-        //Log.e("Bitmap",String.valueOf(useBitmap));
-        GLES20.glTexImage2D(
-                GLES20.GL_TEXTURE_2D,
-                0,
-                GLES20.GL_RGBA,
-                width,
-                height,
-                0,
-                GLES20.GL_RGBA,
-                GLES20.GL_UNSIGNED_BYTE,
-                null);
-
-        tp.setParameters(GLES20.GL_TEXTURE_2D);
-        GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D);
-
-        GLES20.glBindFramebuffer(
-                GLES20.GL_FRAMEBUFFER,
-                fb[idx]);
-        GLES20.glFramebufferTexture2D(
-                GLES20.GL_FRAMEBUFFER,
-                GLES20.GL_COLOR_ATTACHMENT0,
-                GLES20.GL_TEXTURE_2D,
-                tx[idx],
-                0);
-
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT |
-                GLES20.GL_DEPTH_BUFFER_BIT);
-    }
+//
+//    private final BackBufferParameters backBufferTextureParams = new BackBufferParameters();
+//    private final int fb[] = new int[]{0, 0};
+//    private final int tx[] = new int[]{0, 0};
+//    private int frontTarget;
+//    private int backTarget = 1;
+//
+//    private void deleteTargets() {
+//        if (fb[0] == 0) {
+//            return;
+//        }
+//        GLES20.glDeleteFramebuffers(2, fb, 0);
+//        GLES20.glDeleteTextures(2, tx, 0);
+//
+//        fb[0] = 0;
+//    }
+//
+//    private void createTargets(int width, int height) {
+//        deleteTargets();
+//
+//        GLES20.glGenFramebuffers(2, fb, 0);
+//        GLES20.glGenTextures(2, tx, 0);
+//
+//        createTarget(frontTarget, width, height, backBufferTextureParams);
+//        createTarget(backTarget, width, height, backBufferTextureParams);
+//
+//        // unbind textures that were bound in createTarget()
+//        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
+//        GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0);
+//    }
+//
+//    private void createTarget(
+//            int idx,
+//            int width,
+//            int height,
+//            BackBufferParameters tp) {
+//        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, tx[idx]);
+//
+//        //Log.e("Bitmap",String.valueOf(useBitmap));
+//        GLES20.glTexImage2D(
+//                GLES20.GL_TEXTURE_2D,
+//                0,
+//                GLES20.GL_RGBA,
+//                width,
+//                height,
+//                0,
+//                GLES20.GL_RGBA,
+//                GLES20.GL_UNSIGNED_BYTE,
+//                null);
+//
+//        tp.setParameters(GLES20.GL_TEXTURE_2D);
+//        GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D);
+//
+//        GLES20.glBindFramebuffer(
+//                GLES20.GL_FRAMEBUFFER,
+//                fb[idx]);
+//        GLES20.glFramebufferTexture2D(
+//                GLES20.GL_FRAMEBUFFER,
+//                GLES20.GL_COLOR_ATTACHMENT0,
+//                GLES20.GL_TEXTURE_2D,
+//                tx[idx],
+//                0);
+//
+//        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT |
+//                GLES20.GL_DEPTH_BUFFER_BIT);
+//    }
 
 
 }

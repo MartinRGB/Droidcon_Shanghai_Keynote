@@ -3,6 +3,7 @@ package com.martinrgb.shaderexample.renderer.program;
 import android.content.Context;
 import android.opengl.GLES20;
 
+import com.martinrgb.shaderexample.R;
 import com.martinrgb.shaderexample.renderer.util.Constants;
 import com.martinrgb.shaderexample.renderer.util.TextReader;
 
@@ -52,6 +53,7 @@ public class ShaderProgram {
     //###################Memory Allocate & Build Program###################
 
     protected final int programOrig;
+    protected final int programFinal;
     protected ShaderProgram(Context context, InputStream givenVertex, InputStream givenFrag){
 
         if (VERTEX_BUF == null) {
@@ -72,6 +74,11 @@ public class ShaderProgram {
         programOrig = ShaderHelper.buildProgram(
                 TextReader.readTextFileFromResource(context, givenVertex),
                 TextReader.readTextFileFromResource(context, givenFrag));
+
+        programFinal = ShaderHelper.buildProgram(
+                TextReader.readTextFileFromResource(context, R.raw.simplevert),
+                TextReader.readTextFileFromResource(context, R.raw.lastpass));
+
 
     }
 
@@ -95,6 +102,10 @@ public class ShaderProgram {
         programOrig = ShaderHelper.buildProgram(
                 TextReader.readTextFileFromResource(context, vertexId),
                 TextReader.readTextFileFromResource(context, fragId));
+
+        programFinal = ShaderHelper.buildProgram(
+                TextReader.readTextFileFromResource(context, R.raw.simplevert),
+                TextReader.readTextFileFromResource(context, R.raw.lastpass));
 
     }
 

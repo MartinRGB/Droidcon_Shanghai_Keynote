@@ -104,8 +104,8 @@ public class TextureHelper {
 
         return textureObjectIds[0];
 
-
     }
+
     public static int loadTexture(Context context, int resourceId,boolean isSDCard,Bitmap localBitmap) {
         //材质ID
         final int[] textureObjectIds = new int[1];

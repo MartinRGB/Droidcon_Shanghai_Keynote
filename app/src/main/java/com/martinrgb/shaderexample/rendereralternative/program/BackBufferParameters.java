@@ -1,10 +1,5 @@
-package com.martinrgb.shaderexample.renderer.program;
+package com.martinrgb.shaderexample.rendereralternative.program;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapShader;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Shader;
 import android.opengl.GLES20;
 
 public class BackBufferParameters extends TextureParameters {
@@ -35,7 +30,7 @@ public class BackBufferParameters extends TextureParameters {
 		return params;
 	}
 
-	void reset() {
+	public void reset() {
 		set(GLES20.GL_NEAREST,
 				GLES20.GL_NEAREST,
 				GLES20.GL_CLAMP_TO_EDGE,
