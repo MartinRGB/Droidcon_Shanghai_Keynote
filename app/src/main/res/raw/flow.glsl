@@ -6,6 +6,7 @@ uniform float u_time;
 uniform vec2 u_resolution;
 uniform vec2 u_offset;
 uniform sampler2D u_tex0;
+varying vec2 v_texcoord;
 //uniform sampler2D u_backbuffer;
 
 vec3 mod289(vec3 x) {
@@ -81,12 +82,15 @@ vec3 saturation(vec3 rgb, float parameter)
 void main()
 {
 	vec2 st = gl_FragCoord.xy/u_resolution.xy;
+	vec2 uv = gl_FragCoord.xy/u_resolution.xy;
 	float s = snoise(vec2(st.x,st.y*1.3+u_time/3.));
 	st *= vec2( 1.0 + s * (0.3*1.) ); // multiply the uv coord for 1 + the noise
 	st.x += 0.15;
 
 	vec3 color  = texture2D(u_tex0,vec2(st.x*108./234.,st.y)/1.33).xyz;
 	color = saturation(color,4.5);
+
+	vec3 tex  = texture2D(u_tex0,uv).xyz;
 
 	gl_FragColor = vec4(color, 1.0 );
 }

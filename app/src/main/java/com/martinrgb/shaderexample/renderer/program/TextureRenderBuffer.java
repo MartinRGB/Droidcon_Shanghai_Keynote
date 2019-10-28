@@ -1,4 +1,4 @@
-package com.martinrgb.shaderexample.shaderprograms.shaderutil;
+package com.martinrgb.shaderexample.renderer.program;
 
 import android.opengl.GLES20;
 
@@ -12,14 +12,14 @@ import javax.microedition.khronos.opengles.GL10;
  * Created by MartinRGB on 2017/3/21.
  */
 
-public class TexRenderBuffer {
+public class TextureRenderBuffer {
     private int texId = 0;
     private int activeTexUnit = 0;
     private int renderBufferId = 0;
     private int frameBufferId = 0;
     private int width, height;
 
-    public TexRenderBuffer(int width, int height, int activeTexUnit) {
+    public TextureRenderBuffer(int width, int height, int activeTexUnit) {
         this.width = width;
         this.height = height;
         this.activeTexUnit = activeTexUnit;

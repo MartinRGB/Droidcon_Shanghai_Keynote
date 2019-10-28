@@ -1,11 +1,10 @@
-package com.martinrgb.shaderexample.shaderprograms;
+package com.martinrgb.shaderexample.renderer.program;
 
 import android.content.Context;
 import android.opengl.GLES20;
 
-import com.martinrgb.shaderexample.shaderprograms.shaderutil.Constants;
-import com.martinrgb.shaderexample.shaderprograms.shaderutil.ShaderHelper;
-import com.martinrgb.shaderexample.shaderprograms.shaderutil.TextResourceReader;
+import com.martinrgb.shaderexample.renderer.util.Constants;
+import com.martinrgb.shaderexample.renderer.util.TextReader;
 
 import java.io.InputStream;
 import java.nio.ByteBuffer;
@@ -18,12 +17,14 @@ import java.nio.FloatBuffer;
 
 public class ShaderProgram {
 
-    //Uniform常量
-    //protected static final String U_MATRIX = "u_Matrix";
-    //protected static final String U_TEXTURE_UNIT = "u_TextureUnit";
-    //protected static final String U_COLOR = "u_Color";
+    // Uniform
+    protected static final String U_MATRIX = "u_Matrix";
+    protected static final String U_TEXTURE_UNIT = "u_TextureUnit";
+    protected static final String U_COLOR = "u_Color";
 
-    //Attribute 常量
+    // Attribute
+
+    // Vary
 
     //###################Vertex Data###################
     //Vertex Array 和 Simple Color 对象移过来
@@ -50,10 +51,7 @@ public class ShaderProgram {
 
     //###################Memory Allocate & Build Program###################
 
-
     protected final int programOrig;
-    //protected final Buffer vertexBuffer;
-
     protected ShaderProgram(Context context, InputStream givenVertex, InputStream givenFrag){
 
         if (VERTEX_BUF == null) {
@@ -70,10 +68,10 @@ public class ShaderProgram {
             TEXTURE_COORD_BUF.position(0);
         }
 
-        //拿到着色器GLSL文件，用buildProgram构建Program
+        // 拿到着色器GLSL文件，用buildProgram构建Program
         programOrig = ShaderHelper.buildProgram(
-                TextResourceReader.readTextFileFromResource(context, givenVertex),
-                TextResourceReader.readTextFileFromResource(context, givenFrag));
+                TextReader.readTextFileFromResource(context, givenVertex),
+                TextReader.readTextFileFromResource(context, givenFrag));
 
     }
 
@@ -93,26 +91,22 @@ public class ShaderProgram {
             TEXTURE_COORD_BUF.position(0);
         }
 
-        //拿到着色器GLSL文件，用buildProgram构建Program
+        // 拿到着色器 GLSL 文件，用buildProgram构建Program
         programOrig = ShaderHelper.buildProgram(
-                TextResourceReader.readTextFileFromResource(context, vertexId),
-                TextResourceReader.readTextFileFromResource(context, fragId));
+                TextReader.readTextFileFromResource(context, vertexId),
+                TextReader.readTextFileFromResource(context, fragId));
 
     }
 
-
     //###################Init Input Function###################
-
-    //int program, int[] iResolution, int[] iChannels, float mouseX,float mouseY,float sensorX,float sensorY,float sensorZ,float sensorAccelX,float sensorAccelY,float screenValue,float totalAlpha,float texAlpha,int orientation,float offsetX,float offsetY,float time
-
-    void setupShaderInputs(int program, int[] iResolution, int[] iTextures,float time) {
+    public void setupShaderInputs(int program, int[] iResolution, int[] iTextures,float time) {
         GLES20.glUseProgram(program);
 
-        int vPositionLocation = GLES20.glGetAttribLocation(program, "a_Position");
+        int vPositionLocation = GLES20.glGetAttribLocation(program, "a_position");
         GLES20.glEnableVertexAttribArray(vPositionLocation);
         GLES20.glVertexAttribPointer(vPositionLocation, 2, GLES20.GL_FLOAT, false, 8, VERTEX_BUF);
 
-        int vTexCoordLocation = GLES20.glGetAttribLocation(program, "v_texcoord");
+        int vTexCoordLocation = GLES20.glGetAttribLocation(program, "a_textureCoordinates");
         GLES20.glEnableVertexAttribArray(vTexCoordLocation);
         GLES20.glVertexAttribPointer(vTexCoordLocation, 2, GLES20.GL_FLOAT, false, 8, TEXTURE_COORD_BUF);
 

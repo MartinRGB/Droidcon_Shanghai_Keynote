@@ -1,4 +1,4 @@
-package com.martinrgb.shaderexample.shaderprograms.shaderutil;
+package com.martinrgb.shaderexample.renderer.util;
 
 /**
  * Created by MartinRGB on 2017/2/26.

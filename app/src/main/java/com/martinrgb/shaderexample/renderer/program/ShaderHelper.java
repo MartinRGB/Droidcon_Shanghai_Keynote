@@ -1,7 +1,9 @@
-package com.martinrgb.shaderexample.shaderprograms.shaderutil;
+package com.martinrgb.shaderexample.renderer.program;
 
 import android.opengl.GLES20;
 import android.util.Log;
+
+import com.martinrgb.shaderexample.renderer.util.LoggerConfig;
 
 import static android.opengl.GLES20.GL_COMPILE_STATUS;
 import static android.opengl.GLES20.GL_LINK_STATUS;
@@ -18,8 +20,6 @@ import static android.opengl.GLES20.glValidateProgram;
 /**
  * Created by MartinRGB on 2017/2/26.
  */
-
-//glsl 着色器从文件中取出后，需要编译
 public class ShaderHelper {
     private static final String TAG = "ShaderHelper";
 

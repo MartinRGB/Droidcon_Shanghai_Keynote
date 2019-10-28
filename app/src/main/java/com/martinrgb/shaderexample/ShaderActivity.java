@@ -3,7 +3,6 @@ package com.martinrgb.shaderexample;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.ConfigurationInfo;
-import android.content.res.AssetManager;
 import android.opengl.GLSurfaceView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,13 +10,7 @@ import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.martinrgb.shaderexample.shaderprograms.ShaderRenderer;
-
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import com.martinrgb.shaderexample.renderer.ShaderRenderer;
 
 public class ShaderActivity extends AppCompatActivity {
 
@@ -44,12 +37,10 @@ public class ShaderActivity extends AppCompatActivity {
         final ActivityManager activityManager = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
         final ConfigurationInfo configurationInfo = activityManager.getDeviceConfigurationInfo();
         final boolean suppoertsEs2 = configurationInfo.reqGlEsVersion >= 0x20000;
-        //# New Instance Renderer
-        shaderRenderer = new ShaderRenderer(context,R.raw.testvert,R.raw.flow);
+        // New Renderer Instance
+        shaderRenderer = new ShaderRenderer(context,R.raw.simplevert,R.raw.flow);
         if(suppoertsEs2){
-            //请求 OpenGL ES 2.0的上下文（Context是一个场景,代表与操作系统的交互的一种过程。）
             glSurfaceView.setEGLContextClientVersion(2);
-            //#分配Renderer
             glSurfaceView.setRenderer(shaderRenderer);
             isRendering = true;
             Log.d(TAG, "support OpenGL ES 2.0");

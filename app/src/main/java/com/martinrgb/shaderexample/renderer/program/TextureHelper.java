@@ -1,4 +1,4 @@
-package com.martinrgb.shaderexample.shaderprograms.shaderutil;
+package com.martinrgb.shaderexample.renderer.program;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -8,6 +8,8 @@ import android.opengl.GLES11Ext;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
 import android.util.Log;
+
+import com.martinrgb.shaderexample.renderer.util.LoggerConfig;
 
 import javax.microedition.khronos.opengles.GL10;
 
