@@ -6,13 +6,8 @@
     android:layout_height="match_parent"
     tools:context="com.martinrgb.shaderexample.ShaderActivity">
 
-    <android.opengl.GLSurfaceView
-        android:id="@+id/gl_surfaceview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <com.martinrgb.shaderexample.rendereralternative.ShaderView
-        android:id="@+id/preview"
+    <com.martinrgb.shaderexample.ShaderSurfaceView
+        android:id="@+id/shader_surfaceview"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

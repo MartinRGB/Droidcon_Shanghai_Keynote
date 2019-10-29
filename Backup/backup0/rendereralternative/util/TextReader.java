@@ -1,4 +1,4 @@
-package com.martinrgb.shaderexample.rendereralternative.util;
+package com.martinrgb.shaderexample.renderer.util;
 
 import android.content.Context;
 import android.content.res.Resources;

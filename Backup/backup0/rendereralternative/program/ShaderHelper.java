@@ -17,6 +17,9 @@ import static android.opengl.GLES20.glGetShaderiv;
 import static android.opengl.GLES20.glLinkProgram;
 import static android.opengl.GLES20.glValidateProgram;
 
+/**
+ * Created by MartinRGB on 2017/2/26.
+ */
 public class ShaderHelper {
     private static final String TAG = "ShaderHelper";
 
@@ -116,6 +119,7 @@ public class ShaderHelper {
 
     };
 
+    //验证程序
     public static boolean validateProgram(int programObjectId){
         glValidateProgram(programObjectId);
 
@@ -128,11 +132,15 @@ public class ShaderHelper {
 
     };
 
+    //程序构建器
     public static int buildProgram(String vertexShaderSource,String fragmentShaderSource){
         int program;
 
+        //编译着色器
         int vertexShader = complieVertexShader(vertexShaderSource);
         int fragmentShader = complieFragmentShader(fragmentShaderSource);
+
+        //将着色器连接到程序上
         program = linkProgram(vertexShader,fragmentShader);
 
         if(LoggerConfig.ON){
