@@ -7,7 +7,6 @@ uniform vec2 u_mouse;
 uniform float u_time;
 uniform sampler2D u_tex0;
 uniform sampler2D u_tex1;
-
 varying vec2 v_texcoord;
 
 #define M_PI (3.14159265358979)
@@ -27,6 +26,7 @@ const float kCameraSpeed = 0.0;
 const float kCameraHeight = 1.0;
 const float kCameraShakeAmp = 0.001;
 const float kCameraRollNoiseAmp = 0.1;
+
 
 struct Ray
 {
@@ -331,19 +331,25 @@ vec3 mainImage( vec2 fragCoord )
 void main(){
 
     vec2 uv = gl_FragCoord.xy/u_resolution;
-//    if(uv.y < 0.5){
-//        gl_FragColor = vec4(mainImage(gl_FragCoord.xy),1.0);
-//    }
-//    else{
-//        if(uv.y>0.75){
-//            gl_FragColor = vec4(texture2D(u_tex0,uv).rgb,1.0);
-//        }
-//        else{
-//            gl_FragColor = vec4(texture2D(u_tex1,uv).rgb,0.5);
-//        }
-//    }
 
-    gl_FragColor = vec4(mainImage(gl_FragCoord.xy),1.0);
+    if(uv.y < 0.5){
+        if(uv.x > 0.5){
+            gl_FragColor = vec4(mainImage(gl_FragCoord.xy),1.0);
+        }
+        else{
+        }
+
+    }
+    else{
+        if(uv.y>0.75){
+            gl_FragColor = vec4(texture2D(u_tex0,uv).rgb,1.0);
+        }
+        else{
+            gl_FragColor = vec4(texture2D(u_tex1,uv).rgb,0.5);
+        }
+    }
+
+    //gl_FragColor = vec4(mainImage(gl_FragCoord.xy),1.0);
 
 
 //    if(uv.y < 0.5){

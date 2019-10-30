@@ -27,6 +27,7 @@ import static android.opengl.GLES20.glTexParameteri;
 
 public class TextureHelper {
 	private static final String TAG = "TextureHelper";
+	private static final int MAX_TEX_SIZE = 32;
 
 	private static final int textureIds[] = new int[32];
 	private static int textureSize = 0;
@@ -74,4 +75,22 @@ public class TextureHelper {
 		GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D);
 	}
 
+
+	public static int index;
+
+	public static void resetTextureData() {
+		index = 0;
+	}
+
+	public static void passTextureData(int loc,int textureId) {
+		if (loc < 0 || index >= MAX_TEX_SIZE) {
+			return;
+		}
+
+		GLES20.glUniform1i(loc, index);
+		GLES20.glActiveTexture(GLES20.GL_TEXTURE0 + index);
+		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);
+
+		++index;
+	}
 }

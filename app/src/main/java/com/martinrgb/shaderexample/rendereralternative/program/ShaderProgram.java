@@ -18,14 +18,6 @@ import java.nio.FloatBuffer;
 
 public class ShaderProgram {
 
-    // Uniform
-    protected static final String U_MATRIX = "u_Matrix";
-    protected static final String U_TEXTURE_UNIT = "u_TextureUnit";
-    protected static final String U_COLOR = "u_Color";
-
-    // Attribute
-
-    // Vary
 
     //###################Vertex Data###################
     //Vertex Array 和 Simple Color 对象移过来
