@@ -34,6 +34,8 @@ public class ShaderRenderer implements GLSurfaceView.Renderer {
 
 	private final Context context;
 
+	private float mSaturation = 1.67f;
+
 	public ShaderRenderer(Context context) {
 		this.context = context;
 	}
@@ -43,7 +45,6 @@ public class ShaderRenderer implements GLSurfaceView.Renderer {
 		setFrag(frag);
 		setResIds(resIds);
 	}
-
 	public void setQuality(float quality) {
 		this.quality = quality;
 	}
@@ -53,7 +54,6 @@ public class ShaderRenderer implements GLSurfaceView.Renderer {
 	public void setResIds(int[] resIds) {
 		this.resIds = resIds;
 	}
-
 
 	private ShaderProgram shaderProgram;
 
@@ -84,7 +84,7 @@ public class ShaderRenderer implements GLSurfaceView.Renderer {
 	@Override
 	public void onDrawFrame(GL10 gl) {
 		float time = (System.nanoTime() - startTime) / NS_PER_SECOND;
-		shaderProgram.setUniformInput(time,frameResolution,resolution,mouse,textures);
+		shaderProgram.setUniformInput(time,frameResolution,resolution,mouse,textures,mSaturation);
 
 		if(LoggerConfig.ON == true){
 			FPSCounter.logFrameRate();
@@ -97,6 +97,10 @@ public class ShaderRenderer implements GLSurfaceView.Renderer {
 		mouse[1] = Math.round(resolution[1] * quality) - e.getY(0) * quality;
 	}
 
+	// seekbar input
+	public void onSaturationInput(float input) {
+		mSaturation = input;
+	}
 
 
 }

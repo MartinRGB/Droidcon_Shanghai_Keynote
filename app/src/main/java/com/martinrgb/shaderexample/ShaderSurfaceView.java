@@ -20,13 +20,6 @@ public class ShaderSurfaceView extends GLSurfaceView {
 		super(context, attrs);
 		setRenderer(context);
 	}
-
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		renderer.touchAt(event);
-		return true;
-	}
-
 	private void setRenderer(Context context) {
 		renderer = new ShaderRenderer(context);
 		setEGLContextClientVersion(2);
@@ -42,6 +35,17 @@ public class ShaderSurfaceView extends GLSurfaceView {
 		onPause();
 		renderer.setFrag(shaderid, quality,texrues);
 		onResume();
+	}
+
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		renderer.touchAt(event);
+		return true;
+	}
+
+
+	public void onSaturationInput(float input){
+		renderer.onSaturationInput(input);
 	}
 
 }

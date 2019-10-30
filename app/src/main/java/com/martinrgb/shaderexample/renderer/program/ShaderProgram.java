@@ -20,6 +20,7 @@ public class ShaderProgram {
     public static final String UNIFORM_RESOLUTION = "u_resolution";
     public static final String UNIFORM_TIME = "u_time";
     public static final String UNIFORM_TEXTURE = "u_tex";
+    public static final String UNIFORM_SATURATION = "u_saturation";
 
     private int surfaceProgram = 0;
     private int program = 0;
@@ -38,6 +39,7 @@ public class ShaderProgram {
     private int resolutionLoc;
     private int mouseLoc;
     private int backBufferLoc;
+    private int saturationLoc;
     private final int textureLocs[] = new int[32];
 
     public ShaderProgram(Context context, int vert, int frag) {
@@ -53,7 +55,6 @@ public class ShaderProgram {
                 TextReader.readTextFileFromResource(context,vert),
                 TextReader.readTextFileFromResource(context,R.raw.finalpass));
 
-
         init();
     }
 
@@ -61,6 +62,10 @@ public class ShaderProgram {
         indexLocations();
         initVertexBuffer();
         enableAttribArrays();
+    }
+
+    private void buildPrograms(){
+
     }
 
     private void initVertexBuffer(){
@@ -86,7 +91,7 @@ public class ShaderProgram {
 
         timeLoc = GLES20.glGetUniformLocation(program, UNIFORM_TIME);
         mouseLoc = GLES20.glGetUniformLocation(program, UNIFORM_MOUSE);
-
+        saturationLoc = GLES20.glGetUniformLocation(program, UNIFORM_SATURATION);
         // static texture location
 //        if(mTextures !=null){
 //            for (int i =  mTextures.length; i-- > 0; ) {
@@ -95,6 +100,7 @@ public class ShaderProgram {
 //        }
     }
 
+
     private void enableAttribArrays(){
         VertexHelper.enableVertexAttribArray(surfacePositionLoc);
         VertexHelper.enableVertexAttribArray(surfaceTexCoordLoc);
@@ -102,7 +108,7 @@ public class ShaderProgram {
         VertexHelper.enableVertexAttribArray(texCoordLoc);
     }
 
-    public void setUniformInput(float time,float[] frameResolution,float[] resolution,float[] mouse,int[] textures){
+    public void setUniformInput(float time,float[] frameResolution,float[] resolution,float[] mouse,int[] textures,float saturation){
         // ##################### clear the canvas #####################
         if (surfaceProgram == 0 || program == 0) {
             GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
@@ -121,6 +127,7 @@ public class ShaderProgram {
         if (timeLoc > -1) { GLES20.glUniform1f(timeLoc,time); }
         if (resolutionLoc > -1) { GLES20.glUniform2fv(resolutionLoc,1,frameResolution,0); }
         if (mouseLoc > -1) { GLES20.glUniform2fv(mouseLoc,1,mouse,0); }
+        if (saturation > -1) { GLES20.glUniform1f(saturationLoc,saturation); }
 
         GLES20.glViewport(0,0,(int) frameResolution[0],(int) frameResolution[1]);
 
