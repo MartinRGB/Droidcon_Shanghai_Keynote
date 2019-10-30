@@ -7,6 +7,8 @@ uniform vec2 u_mouse;
 uniform float u_time;
 uniform sampler2D u_tex0;
 uniform sampler2D u_tex1;
+uniform sampler2D u_tex2;
+uniform sampler2D u_backbuffer;
 varying vec2 v_texcoord;
 
 #define M_PI (3.14159265358979)
@@ -337,6 +339,7 @@ void main(){
             gl_FragColor = vec4(mainImage(gl_FragCoord.xy),1.0);
         }
         else{
+            gl_FragColor = vec4(texture2D(u_backbuffer,uv).rgb,1.0);
         }
 
     }
@@ -349,9 +352,7 @@ void main(){
         }
     }
 
-    //gl_FragColor = vec4(mainImage(gl_FragCoord.xy),1.0);
-
-
+    gl_FragColor = vec4(mainImage(gl_FragCoord.xy),1.0);
 //    if(uv.y < 0.5){
 //        gl_FragColor = vec4(texture2D(u_tex0,uv).rgb,0.5);
 //    }

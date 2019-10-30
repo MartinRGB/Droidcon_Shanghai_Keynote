@@ -6,12 +6,11 @@ import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-import com.martinrgb.shaderexample.renderer.ShaderRendererTwo;
-import com.martinrgb.shaderexample.rendereralternative.ShaderRenderer;
+import com.martinrgb.shaderexample.renderer.ShaderRenderer;
 
 public class ShaderSurfaceView extends GLSurfaceView {
 //	private ShaderRenderer renderer;
-	private ShaderRendererTwo renderer;
+	private ShaderRenderer renderer;
 
 	public ShaderSurfaceView(Context context) {
 		super(context);
@@ -32,16 +31,16 @@ public class ShaderSurfaceView extends GLSurfaceView {
 
 	private void setRenderer(Context context) {
 		//renderer = new ShaderRenderer(context,R.raw.simplevert,R.raw.flow,new int[]{R.drawable.test,R.drawable.test2});
-		renderer = new ShaderRendererTwo(context);
+		renderer = new ShaderRenderer(context);
 
 		setEGLContextClientVersion(2);
 		setRenderer(renderer);
 		setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
 	}
 
-//	public ShaderRenderer getRenderer() {
-//		return renderer;
-//	}
+	public ShaderRenderer getRenderer() {
+		return renderer;
+	}
 
 	public void setFrag(int shaderid, float quality,int[] texrues) {
 		onPause();

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 
-import com.martinrgb.shaderexample.renderer.program.FrameBufferHelper;
 import com.martinrgb.shaderexample.rendereralternative.util.FPSCounter;
 import com.martinrgb.shaderexample.rendereralternative.util.LoggerConfig;
 import com.martinrgb.shaderexample.rendereralternative.program.TextureHelper;

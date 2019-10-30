@@ -38,7 +38,7 @@ public class ShaderActivity extends AppCompatActivity {
 
     private void initShaderView() {
         shaderSurfaceView = findViewById(R.id.shader_surfaceview);
-        shaderSurfaceView.setFrag( R.raw.flow,1/4f,new int[]{R.drawable.test,R.drawable.test2});
+        shaderSurfaceView.setFrag( R.raw.flow,1/2f,new int[]{R.drawable.test,R.drawable.test2,R.drawable.saturation_2_blurred});
     }
 
 }
