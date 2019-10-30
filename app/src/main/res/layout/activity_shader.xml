@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,4 +11,58 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-</android.support.constraint.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#AA000000"
+        android:padding="20dp"
+        android:id="@+id/borad"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="Saturation"
+                android:textColor="#FFF"
+                android:paddingLeft="6dp"
+                android:paddingBottom="6dp"/>
+
+            <com.martinrgb.shaderexample.seekbar.BubbleSeekBar
+                android:id="@+id/bs_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:bsb_bubble_color="#FFF"
+                app:bsb_bubble_text_color="#000"
+                app:bsb_min="0.1"
+                app:bsb_max="10"
+                app:bsb_progress="1.67"
+                app:bsb_second_track_color="#EFFFFFFF"
+                app:bsb_section_count="1"
+                app:bsb_section_text_position="sides"
+                app:bsb_show_progress_in_float="true"
+                app:bsb_show_section_mark="true"
+                app:bsb_show_section_text="true"
+                app:bsb_show_thumb_text="true"
+                app:bsb_track_color="#99FFFFFF"/>
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="6dp"
+            android:textColor="#99FFFFFF"
+            android:text = "按 音量 👇 打开|关闭 此面板"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
