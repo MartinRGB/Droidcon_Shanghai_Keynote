@@ -51,7 +51,7 @@ public class ShaderProgram {
 
         surfaceProgram = ShaderHelper.buildProgram(
                 TextReader.readTextFileFromResource(context,vert),
-                TextReader.readTextFileFromResource(context,R.raw.lastpass));
+                TextReader.readTextFileFromResource(context,R.raw.finalpass));
 
 
         init();

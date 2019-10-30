@@ -334,35 +334,6 @@ void main(){
 
     vec2 uv = gl_FragCoord.xy/u_resolution;
 
-    if(uv.y < 0.5){
-        if(uv.x > 0.5){
-            gl_FragColor = vec4(mainImage(gl_FragCoord.xy),1.0);
-        }
-        else{
-            gl_FragColor = vec4(texture2D(u_backbuffer,uv).rgb,1.0);
-        }
-
-    }
-    else{
-        if(uv.y>0.75){
-            gl_FragColor = vec4(texture2D(u_tex0,uv).rgb,1.0);
-        }
-        else{
-            gl_FragColor = vec4(texture2D(u_tex1,uv).rgb,0.5);
-        }
-    }
-
     gl_FragColor = vec4(mainImage(gl_FragCoord.xy),1.0);
-//    if(uv.y < 0.5){
-//        gl_FragColor = vec4(texture2D(u_tex0,uv).rgb,0.5);
-//    }
-//    else{
-//        gl_FragColor = vec4(texture2D(u_tex0,st).rgb,0.5);
-//    }
-
-//    vec2 uv = gl_FragCoord.xy/u_resolution;
-//    vec2 st = v_texcoord;
-//    gl_FragColor = vec4(texture2D(u_tex1,st).rgb,0.5);
-
 
 }

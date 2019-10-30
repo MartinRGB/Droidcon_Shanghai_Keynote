@@ -21,11 +21,6 @@ import static android.opengl.GLES20.glDeleteTextures;
 import static android.opengl.GLES20.glGenTextures;
 import static android.opengl.GLES20.glTexParameteri;
 
-/**
- * Created by MartinRGB on 2017/2/17.
- */
-
-
 public class TextureHelper {
 	private static final String TAG = "TextureHelper";
 

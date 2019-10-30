@@ -9,7 +9,6 @@ import android.view.MotionEvent;
 import com.martinrgb.shaderexample.renderer.ShaderRenderer;
 
 public class ShaderSurfaceView extends GLSurfaceView {
-//	private ShaderRenderer renderer;
 	private ShaderRenderer renderer;
 
 	public ShaderSurfaceView(Context context) {
@@ -28,11 +27,8 @@ public class ShaderSurfaceView extends GLSurfaceView {
 		return true;
 	}
 
-
 	private void setRenderer(Context context) {
-		//renderer = new ShaderRenderer(context,R.raw.simplevert,R.raw.flow,new int[]{R.drawable.test,R.drawable.test2});
 		renderer = new ShaderRenderer(context);
-
 		setEGLContextClientVersion(2);
 		setRenderer(renderer);
 		setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
