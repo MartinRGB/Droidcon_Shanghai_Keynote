@@ -5,3 +5,11 @@ node_modules
 npm-debug.log
 package-lock.json
 release-builds
+
+.gradle
+.idea
+
+*.iml
+build
+
+local.properties
