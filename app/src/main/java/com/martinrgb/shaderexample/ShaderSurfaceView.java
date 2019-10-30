@@ -43,16 +43,9 @@ public class ShaderSurfaceView extends GLSurfaceView {
 //		return renderer;
 //	}
 
-	public void setFragWithTex(int shaderid, float quality,int[] texrues) {
+	public void setFrag(int shaderid, float quality,int[] texrues) {
 		onPause();
-		renderer.setFragWithTex(shaderid, quality,texrues);
-
-		onResume();
-	}
-
-	public void setFrag(int shaderid, float quality) {
-		onPause();
-		renderer.setFrag(shaderid, quality);
+		renderer.setFrag(shaderid, quality,texrues);
 		onResume();
 	}
 

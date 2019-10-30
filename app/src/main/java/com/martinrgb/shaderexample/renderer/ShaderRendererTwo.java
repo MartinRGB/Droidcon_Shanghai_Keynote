@@ -80,21 +80,12 @@ public class ShaderRendererTwo implements GLSurfaceView.Renderer {
 		this.context = context;
 	}
 
-	public void setFragWithTex(int frag, float quality,int[] res) {
+	public void setFrag(int frag, float quality,int[] res) {
 		setQuality(quality);
 		mFramerBuffer = new FrameBufferHelper();
 		this.mFrag = frag;
 		this.mRes = res;
-
 	}
-
-	public void setFrag(int frag, float quality) {
-		setQuality(quality);
-		mFramerBuffer = new FrameBufferHelper();
-		this.mFrag = frag;
-	}
-
-
 
 	public void setQuality(float quality) {
 		this.quality = quality;
@@ -106,37 +97,14 @@ public class ShaderRendererTwo implements GLSurfaceView.Renderer {
 	@Override
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
 
-
 		GLES20.glDisable(GLES20.GL_CULL_FACE);
 		GLES20.glDisable(GLES20.GL_BLEND);
 		GLES20.glDisable(GLES20.GL_DEPTH_TEST);
 		GLES20.glClearColor(0f, 0f, 0f, 1f);
 
-
-
-
-		mTexs = TextureHelper.loadTextures(context,mRes);
-
-//		if (surfaceProgram != 0) {
-//			surfaceProgram = 0;
-//		}
-//
-//		if (program != 0) {
-//			program = 0;
-//		}
-//
-//		program = ShaderHelper.buildProgram(
-//				TextReader.readTextFileFromResource(context,R.raw.simplevert),
-//				TextReader.readTextFileFromResource(context,mFrag));
-//
-//		surfaceProgram = ShaderHelper.buildProgram(
-//				TextReader.readTextFileFromResource(context,R.raw.simplevert),
-//				TextReader.readTextFileFromResource(context,R.raw.lastpass));
-//
-//		indexLocations();
-//		setupVertex();
-
-
+		if(mRes != null){
+			mTexs = TextureHelper.loadTextures(context,mRes);
+		}
 		simpleShaderProgram = new SimpleShaderProgram(context,R.raw.simplevert,mFrag,mTexs);
 
 		Log.e("Tag","2");
@@ -169,8 +137,8 @@ public class ShaderRendererTwo implements GLSurfaceView.Renderer {
 		final long now = System.nanoTime();
 		float delta = (now - startTime) / NS_PER_SECOND;
 
-
 		simpleShaderProgram.setUniformInput(mFramerBuffer,delta,resolution,surfaceResolution,mouse,mTexs);
+
 
 //		if (surfaceProgram == 0 || program == 0) {
 //			GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
@@ -263,52 +231,6 @@ public class ShaderRendererTwo implements GLSurfaceView.Renderer {
 		mouse[1] = resolution[1] - e.getY(0) * quality;;
 	}
 
-//	private void indexLocations() {
-//		surfacePositionLoc = GLES20.glGetAttribLocation(
-//				surfaceProgram, ATTRIBUTE_POSITION);
-//		surfaceTexCoordLoc = GLES20.glGetAttribLocation(
-//				surfaceProgram, ATTRIBUTE_TEXCOORD);
-//		positionLoc = GLES20.glGetAttribLocation(
-//				program, ATTRIBUTE_POSITION);
-//		texCoordLoc = GLES20.glGetAttribLocation(
-//				program, ATTRIBUTE_TEXCOORD);
-//
-//		surfaceResolutionLoc = GLES20.glGetUniformLocation(
-//				surfaceProgram, UNIFORM_RESOLUTION);
-//		surfaceFrameLoc = GLES20.glGetUniformLocation(
-//				surfaceProgram, UNIFORM_FRAME_NUMBER);
-//
-//		timeLoc = GLES20.glGetUniformLocation(
-//				program, UNIFORM_TIME);
-//
-//		resolutionLoc = GLES20.glGetUniformLocation(
-//				program, UNIFORM_RESOLUTION);
-//		mouseLoc = GLES20.glGetUniformLocation(
-//				program, UNIFORM_MOUSE);
-//
-//		backBufferLoc = GLES20.glGetUniformLocation(
-//				program, UNIFORM_BACKBUFFER);
-//
-//		for (int i =  mTexs.length; i-- > 0; ) {
-//			textureLocs[i] = GLES20.glGetUniformLocation(
-//					program,UNIFORM_TEXTURE + i);
-//
-//		}
-//	}
-//
-//
-//	private void setupVertex(){
-//		vertexBuffer = ByteBuffer.allocateDirect(8);
-//		vertexBuffer.put(new byte[]{1, -1,-1, -1,1, 1,-1, 1}).position(0);
-//
-//
-//		textureBuffer = ByteBuffer.allocateDirect(8);
-//		textureBuffer.put(new byte[]{1, 0,0, 0,1, 1,0, 1}).position(0);
-//
-//		VertexHelper.enableVertexAttribArray(surfacePositionLoc);
-//		VertexHelper.enableVertexAttribArray(positionLoc);
-//		VertexHelper.enableVertexAttribArray(surfaceTexCoordLoc);
-//		VertexHelper.enableVertexAttribArray(texCoordLoc);
-//	}
+
 
 }

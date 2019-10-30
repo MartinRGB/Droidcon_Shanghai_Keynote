@@ -2,6 +2,7 @@ package com.martinrgb.shaderexample.renderer.program;
 
 import android.content.Context;
 import android.opengl.GLES20;
+import android.util.Log;
 
 import com.martinrgb.shaderexample.R;
 import com.martinrgb.shaderexample.renderer.util.TextReader;
@@ -20,14 +21,11 @@ public class SimpleShaderProgram {
     public static final String UNIFORM_TIME = "u_time";
     public static final String UNIFORM_TEXTURE = "u_tex";
 
-
-    //private final float surfaceResolution[] = new float[]{0, 0};
+    private int surfaceProgram = 0;
+    private int program = 0;
 
     private static ByteBuffer vertexBuffer;
     private static ByteBuffer textureBuffer;
-
-    private int surfaceProgram = 0;
-    private int program = 0;
 
     private int surfacePositionLoc;
     private int surfaceTexCoordLoc;
@@ -44,40 +42,10 @@ public class SimpleShaderProgram {
 
     private int[] mTexturess;
 
-    private Context context;
-
-    public SimpleShaderProgram(Context context,int vert, int frag) {
-        this.context = context;
-
-        if (surfaceProgram != 0) {
-            surfaceProgram = 0;
-        }
-
-        if (program != 0) {
-            program = 0;
-        }
-
-        program = ShaderHelper.buildProgram(
-                TextReader.readTextFileFromResource(context,vert),
-                TextReader.readTextFileFromResource(context,frag));
-
-        surfaceProgram = ShaderHelper.buildProgram(
-                TextReader.readTextFileFromResource(context,vert),
-                TextReader.readTextFileFromResource(context,R.raw.lastpass));
-
-        init();
-    }
-
     public SimpleShaderProgram(Context context,int vert, int frag,int[] textures) {
-        this.context = context;
 
-        if (surfaceProgram != 0) {
-            surfaceProgram = 0;
-        }
-
-        if (program != 0) {
-            program = 0;
-        }
+        if (surfaceProgram != 0) { surfaceProgram = 0; }
+        if (program != 0) { program = 0; }
 
         program = ShaderHelper.buildProgram(
                 TextReader.readTextFileFromResource(context,vert),
@@ -88,6 +56,7 @@ public class SimpleShaderProgram {
                 TextReader.readTextFileFromResource(context,R.raw.lastpass));
 
         mTexturess = textures;
+
         init();
     }
 
@@ -103,24 +72,24 @@ public class SimpleShaderProgram {
         positionLoc = GLES20.glGetAttribLocation(program, ATTRIBUTE_POSITION);
         texCoordLoc = GLES20.glGetAttribLocation(program, ATTRIBUTE_TEXCOORD);
 
+        Log.e("Loc",String.valueOf(surfacePositionLoc));
+        Log.e("Loc",String.valueOf(surfaceTexCoordLoc));
+        Log.e("Loc",String.valueOf(positionLoc));
+        Log.e("Loc",String.valueOf(texCoordLoc));
+
         surfaceResolutionLoc = GLES20.glGetUniformLocation( surfaceProgram, UNIFORM_RESOLUTION);
         surfaceFrameLoc = GLES20.glGetUniformLocation(surfaceProgram, UNIFORM_FRAME_NUMBER);
 
-        timeLoc = GLES20.glGetUniformLocation(program, UNIFORM_TIME);
-
         resolutionLoc = GLES20.glGetUniformLocation(program, UNIFORM_RESOLUTION);
+        timeLoc = GLES20.glGetUniformLocation(program, UNIFORM_TIME);
         mouseLoc = GLES20.glGetUniformLocation(program, UNIFORM_MOUSE);
-
         backBufferLoc = GLES20.glGetUniformLocation(program, UNIFORM_BACKBUFFER);
-
         if(mTexturess !=null){
             for (int i =  mTexturess.length; i-- > 0; ) {
                 textureLocs[i] = GLES20.glGetUniformLocation(program,UNIFORM_TEXTURE + i);
-
             }
         }
     }
-
 
     private void setupVertex(){
         vertexBuffer = ByteBuffer.allocateDirect(8);
@@ -131,18 +100,16 @@ public class SimpleShaderProgram {
         textureBuffer.put(new byte[]{1, 0,0, 0,1, 1,0, 1}).position(0);
 
         VertexHelper.enableVertexAttribArray(surfacePositionLoc);
-        VertexHelper.enableVertexAttribArray(positionLoc);
         VertexHelper.enableVertexAttribArray(surfaceTexCoordLoc);
+        VertexHelper.enableVertexAttribArray(positionLoc);
         VertexHelper.enableVertexAttribArray(texCoordLoc);
     }
 
-    public void setUniformInput(FrameBufferHelper mFramerBuffer,float delta,float[] resolution,float[] surfaceResolution,float[] mouse,int[] mTexs){
+    public void setUniformInput(FrameBufferHelper mFramerBuffer,float delta,float[] resolution,float[] surfaceResolution,float[] mouse,int[] textures){
         if (surfaceProgram == 0 || program == 0) {
             GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
             return;
         }
-
-
 
         GLES20.glUseProgram(program);
 
@@ -150,23 +117,11 @@ public class SimpleShaderProgram {
         VertexHelper.parseVertexAttribArray(texCoordLoc,textureBuffer);
 
 
-        if (timeLoc > -1) {
-            GLES20.glUniform1f(timeLoc,delta);
-        }
+        if (timeLoc > -1) { GLES20.glUniform1f(timeLoc,delta); }
+        if (resolutionLoc > -1) { GLES20.glUniform2fv(resolutionLoc,1,resolution,0); }
+        if (mouseLoc > -1) { GLES20.glUniform2fv(mouseLoc,1,mouse,0); }
 
-
-        if (resolutionLoc > -1) {
-            GLES20.glUniform2fv(resolutionLoc,1,resolution,0);
-        }
-
-        if (mouseLoc > -1) {
-            GLES20.glUniform2fv(mouseLoc,1,mouse,0);
-        }
-
-        if (mFramerBuffer.getBuffers()[0] == 0) {
-            mFramerBuffer.createTargets((int) resolution[0],(int) resolution[1]);
-        }
-
+        if (mFramerBuffer.getBuffers()[0] == 0) { mFramerBuffer.createTargets((int) resolution[0],(int) resolution[1]); }
 
         // first draw custom shader in framebuffer
         GLES20.glViewport(0,0,(int) resolution[0],(int) resolution[1]);
@@ -180,11 +135,13 @@ public class SimpleShaderProgram {
             ++texIndex;
         }
 
-        for (int i = 0; i < mTexs.length; ++i) {
-            GLES20.glActiveTexture(GLES20.GL_TEXTURE0 + texIndex);
-            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTexs[i]);
-            GLES20.glUniform1i(textureLocs[i], texIndex);
-            ++texIndex;
+        if(textures != null){
+            for (int i = 0; i < textures.length; ++i) {
+                GLES20.glActiveTexture(GLES20.GL_TEXTURE0 + texIndex);
+                GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textures[i]);
+                GLES20.glUniform1i(textureLocs[i], texIndex);
+                ++texIndex;
+            }
         }
 
         mFramerBuffer.bind();
@@ -203,14 +160,19 @@ public class SimpleShaderProgram {
 
         GLES20.glUniform2fv(surfaceResolutionLoc,1,surfaceResolution,0);
 
-        GLES20.glUniform1i(surfaceFrameLoc, 0);
+//        if (surfaceFrameLoc > -1) {
+//            GLES20.glActiveTexture(GLES20.GL_TEXTURE0 + texIndex);
+//            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,mFramerBuffer.getFrontTextureId());
+//            GLES20.glUniform1i(surfaceFrameLoc, texIndex);
+//            ++texIndex;
+//        }
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,mFramerBuffer.getFrontTextureId());
+        GLES20.glUniform1i(surfaceFrameLoc, 0);
+
 
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP,0,4);
-
-
 
         mFramerBuffer.swapBuffer();
     }
