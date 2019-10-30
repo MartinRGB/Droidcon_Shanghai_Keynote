@@ -34,12 +34,11 @@
       text-align: center;
       width: 100%;
       position: absolute;
-      letter-spacing: 10px;
       font-weight: 500;
       font-size: 16px;
       opacity: 0.5;
       bottom: 30px;
-  ">点击图片或拖放图片 — 上传，拖拽滑块 - 模糊</span>
+  ">点击图片或拖放图片 — 上传，拖拽滑块 - 模糊 <a href="#" class="button" id="downloader" download="texture.png">下载材质</a> </span>
 
       <div>
         <input type="range" min="0" max="150" value="50" id="slider"  style="
@@ -57,7 +56,8 @@
       </div>
     
       <div class="image-shadow js-tilt-container" id="js-tilt-container" ></div>
-      <canvas id="preCanvas" class="js-tilt-container"  width="400" height="400"></canvas>
+      <canvas id="preCanvas" class="js-tilt-container"  width="512" height="512"></canvas>
+      
 
       <div id="draghoverimg" style="
           z-index: 100000000;

@@ -157,13 +157,13 @@ function initShader(){
               )
           );
           
-          color.rgb = blendColorDodge(
-              color.rgb,
-              mix( vec3( 0.0, 0.0, 0.0 ),
-                   vec3(0.09, 0.08, 0.0),
-                   abs( sin( u_time ) )
-              )
-          );
+          // color.rgb = blendColorDodge(
+          //     color.rgb,
+          //     mix( vec3( 0.0, 0.0, 0.0 ),
+          //          vec3(0.09, 0.08, 0.0),
+          //          abs( sin( u_time ) )
+          //     )
+          // );
           
           color = czm_saturation(color,u_slot1*u_saturation);
           //brightness Effect
@@ -223,6 +223,20 @@ function drawBlur(val){
 // ################################## Image Compare ##################################
 
 var tiltEl = $('.js-tilt-container');
+
+
+var button = document.getElementById('downloader');
+button.addEventListener('click', function (e) {
+    var dataURL = preCanvas.toDataURL('image/png');
+    button.href = dataURL;
+});
+
+// function download(){
+//   var downloader = document.getElementById("download");
+//   var image = preCanvas.toDataURL().replace(/^data:image\/[^;]/, 'data:application/octet-stream');
+//   console.log(image)
+//   downloader.setAttribute("href", image);
+// }
 
 tiltEl.on('mousemove', function(e){
 	const {left, top} = $(this).offset();
