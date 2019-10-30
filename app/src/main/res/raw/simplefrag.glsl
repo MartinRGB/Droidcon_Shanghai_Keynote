@@ -2,17 +2,14 @@
 // Title:
 
 #ifdef GL_ES
-precision mediump float;
+precision highp float;
 #endif
 
 uniform vec2 u_resolution;
 uniform vec2 u_mouse;
 uniform float u_time;
+uniform float u_saturation;
 uniform sampler2D u_tex0;
-//Shader Toy Basic Uniform
-#define iTime u_time
-#define iResolution u_resolution
-#define iMouse u_mouse
 
 vec3 mod289(vec3 x) {
     return x - floor(x * (1.0 / 289.0)) * 289.0;
@@ -86,14 +83,12 @@ vec3 saturation(vec3 rgb, float parameter)
 void main() {
 
     vec2 st = gl_FragCoord.xy/u_resolution.xy;
-    float s = snoise(vec2(st.x,st.y*1.3+u_time/3.));
+    float s = snoise(vec2(st.x,st.y*1.3+u_time*0.37));
     st *= vec2( 1.0 + s * (0.3*1.) ); // multiply the uv coord for 1 + the noise
-    st.x += 0.15;
+    st.x += 0.5;
 
     vec3 color  = texture2D(u_tex0,vec2(st.x*108./234.,st.y)/1.33).xyz;
-    color = saturation(color,4.5);
-
-    gl_FragColor = vec4(color, 1.0 );
+    color = saturation(color,u_saturation);
 
     gl_FragColor = vec4(color ,1.0);
 }
