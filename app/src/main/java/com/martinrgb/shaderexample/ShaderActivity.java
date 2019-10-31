@@ -63,7 +63,7 @@ public class ShaderActivity extends AppCompatActivity {
 
     }
 
-    private boolean isClosed = true;
+    private boolean isClosed = false;
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)){
