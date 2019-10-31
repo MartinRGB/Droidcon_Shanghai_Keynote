@@ -1,6 +1,7 @@
 package com.martinrgb.shaderexample.renderer.program;
 
 import android.opengl.GLES20;
+import android.util.Log;
 
 /**
  * Created by MartinRGB on 2017/2/17.
@@ -13,14 +14,16 @@ public class FBOHelper {
 	private static final int tx[] = new int[]{0, 0};
 	private static int frontTarget;
 	private static int backTarget = 1;
+	private static BufferTarget frontBufferTarget = new BufferTarget(0,"T-A");
+	private static BufferTarget backBufferTarget = new BufferTarget(1,"T-B");
 
 	public static int[] getBuffers(){
 		return fb;
 	}
 	public static int getFrontTextureId(){
-		return tx[frontTarget];
+		return tx[frontBufferTarget.getCurrentState()];
 	}
-	public static int getBackTextureId(){return tx[backTarget]; }
+	public static int getBackTextureId(){return tx[backBufferTarget.getCurrentState()]; }
 
 
 	public static void createFBOs(int width, int height) {
@@ -29,8 +32,8 @@ public class FBOHelper {
 		GLES20.glGenFramebuffers(2, fb, 0);
 		GLES20.glGenTextures(2, tx, 0);
 
-		createFBO(frontTarget, width, height);
-		createFBO(backTarget, width, height);
+		createFBO(frontBufferTarget.getCurrentState(), width, height);
+		createFBO(backBufferTarget.getCurrentState(), width, height);
 
 		// unbind textures that were bound in createTarget()
 		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
@@ -62,9 +65,14 @@ public class FBOHelper {
 		// swap buffers so the next image will be rendered
 		// over the current backbuffer and the current image
 		// will be the backbuffer for the next image
-		int t = frontTarget;
-		frontTarget = backTarget;
-		backTarget = t;
+
+//		int t = frontTarget;
+//		frontTarget = backTarget;
+//		backTarget = t;
+
+		int t = frontBufferTarget.getCurrentState();
+		frontBufferTarget.setCurrentState(backBufferTarget.getCurrentState());
+		backBufferTarget.setCurrentState(t);
 	}
 
 	private static void deleteFBOs() {
@@ -79,7 +87,42 @@ public class FBOHelper {
 	}
 
 
-	public static void bindFBO(){GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER,fb[frontTarget]);}
+	public static void bindFBO(){GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER,fb[frontBufferTarget.getCurrentState()]);}
 
 	public static void unbindFBO(){ GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER,0); }
+
+	private static class BufferTarget{
+		private final int FRONT = 0;
+		private int currentState = 0;
+		private String currentTag = "Target-A";
+
+		public BufferTarget() {
+			setCurrentState(currentState);
+			setCurrentTag(currentTag);
+		}
+
+		public BufferTarget(int state,String tag) {
+			setCurrentState(state);
+			setCurrentTag(tag);
+		}
+
+		public void setCurrentState(int state) {
+//			if(state == FRONT){
+//				Log.d("Curr FrongTarget Tag:",String.valueOf(getCurrentTag()));
+//			}
+			currentState = state;
+		}
+
+		public int getCurrentState() {
+			return currentState;
+		}
+
+		public void setCurrentTag(String tag) {
+			currentTag = tag;
+		}
+
+		public String getCurrentTag() {
+			return currentTag;
+		}
+	}
 }

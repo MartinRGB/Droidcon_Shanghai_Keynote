@@ -10,6 +10,7 @@ uniform vec2 u_mouse;
 uniform float u_time;
 uniform float u_saturation;
 uniform sampler2D u_tex0;
+uniform sampler2D u_tex1;
 
 vec3 mod289(vec3 x) {
     return x - floor(x * (1.0 / 289.0)) * 289.0;

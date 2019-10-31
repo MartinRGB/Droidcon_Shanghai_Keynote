@@ -37,7 +37,7 @@ public class ShaderActivity extends AppCompatActivity {
 
     private void initShaderView() {
         shaderSurfaceView = findViewById(R.id.shader_surfaceview);
-        shaderSurfaceView.setFrag( R.raw.simplefrag,1,new int[]{R.drawable.texture});
+        shaderSurfaceView.setFrag( R.raw.simplefrag,1,new int[]{R.drawable.texture,R.drawable.tex16});
     }
 
     private BubbleSeekBar mSeek;
