@@ -2,11 +2,15 @@
 Keynote I used in Droidcon Shanghai —————— Using WebGL as an Android design tool
 
 
+## Simple Guide
 
-## Utils
+- [GLSLEditor Live](http://www.martinrgb.com/Droidcon_Shanghai_Keynote/)
 
-[GLSLEditor Live](http://www.martinrgb.com/Droidcon_Shanghai_Keynote/)
+- [Electron Project](https://github.com/MartinRGB/Droidcon_Shanghai_Keynote/tree/electron_mac_app)
 
-[Android Webview Previewer](https://github.com/MartinRGB/Droidcon_Shanghai_Keynote/releases/tag/v0.1)
+- [Resource for Webview previewer](https://github.com/MartinRGB/Droidcon_Shanghai_Keynote/tree/android_webview_wrapper)
 
-[CoverFlow Mac App](https://github.com/MartinRGB/Droidcon_Shanghai_Keynote/releases/tag/v0.2)
+- [Android Project](https://github.com/MartinRGB/Droidcon_Shanghai_Keynote/tree/android_app)
+
+
+Check [Release](https://github.com/MartinRGB/Droidcon_Shanghai_Keynote/releases) for Mac Apps & Android Previewer APK
